@@ -1,0 +1,56 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box}
+html{font-size:clamp(14px,2.2vw,26px)}
+html,body{margin:0;height:100%;overflow:hidden;background:transparent;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#37352f}
+.wrap{position:relative;height:100%;width:100%;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 100%)}
+.log{position:absolute;left:.9rem;right:.9rem;bottom:.6rem;display:flex;flex-direction:column;gap:.7rem}
+.row{display:flex;align-items:flex-end;gap:.6rem;opacity:0;transform:translateY(.9rem) scale(.96);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.25,1.2)}
+.row.in{opacity:1;transform:none}
+.row.r{flex-direction:row-reverse}
+.av{width:2.9rem;height:2.9rem;border-radius:.85rem;flex:none;background-size:118%;background-position:center;box-shadow:0 0 0 1px rgba(55,53,47,.08)}
+.col{display:flex;flex-direction:column;max-width:72%}
+.row.r .col{align-items:flex-end}
+.nm{font-size:.72rem;color:#9b9a97;margin:0 .3rem .2rem}
+.bb{padding:.55rem .9rem;border-radius:1rem;font-size:1rem;line-height:1.5;word-break:keep-all;background:#f1f1ef}
+.row:not(.r) .bb{border-bottom-left-radius:.3rem}
+.row.r .bb{background:#e7f3f8;color:#28456c;border-bottom-right-radius:.3rem}
+.typing .bb{display:flex;gap:.3rem;padding:.8rem .9rem}
+.typing i{width:.4rem;height:.4rem;border-radius:50%;background:#b9b8b4;animation:t 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes t{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-.2rem);opacity:1}}
+.cont .av{visibility:hidden}.cont .nm{display:none}
+</style></head><body><div class="wrap"><div class="log" id="log"></div></div>
+<script>
+var P={h:{name:"하루토",img:"avatar_b.png",side:"r"},m:{name:"멧시",img:"avatar_a.png",side:""}};
+var lines=[
+["m","에잇."],
+["h","멧~…? …어."],
+["m","선생님! 사가라가 했어요!!"],
+["h","메가타... 너 지금 나 판 거야...?!"],
+["m","왜, 섭섭해? 삐질거야?"],
+["h","어…!! 서운해………!!!"],
+["m","미안, 하루토⋯. 울지마, 응?"],
+["m","⋯똑같네, 어릴 때랑. 아직 울보였구나."],
+["h","…미안…"],
+["h","…나 오늘 식단 말고 맛있는 거 먹을래. 멧시 네가 사."],
+["m","얼굴 다 쓸리겠다, 울보야."],
+["m","오늘은 제일 비싼 거 골라. 대신 먹고 나서 서운한거 다 푸는 거다?"],
+["-"],
+["m","뭐야~ 나한테는 칭찬 받기 싫어?"],
+["m","포즈 어떻게 할까?"],
+["h","그럴까? 어, 방금…"],
+["m","이제 뭐 할래? 기껏 신사 왔으니까 기념품이라도 살까."]
+];
+var log=document.getElementById('log'),i=0,last=null,MAX=3;
+function row(who,html,typing){var p=P[who],r=document.createElement('div');r.className='row '+p.side+(typing?' typing':'')+(last===who?' cont':'');
+r.innerHTML='<div class="av" style="background-image:url('+p.img+')"></div><div class="col"><div class="nm">'+p.name+'</div><div class="bb">'+html+'</div></div>';log.appendChild(r);requestAnimationFrame(function(){requestAnimationFrame(function(){r.classList.add('in')})});return r}
+function trim(){var H=document.querySelector('.wrap').clientHeight*0.97;var rs=[].slice.call(log.children);var k=0;while(log.offsetHeight>H&&k<rs.length-1){rs[k].remove();k++}}
+function step(){if(i>=lines.length){setTimeout(function(){[].forEach.call(log.children,function(c){c.style.opacity=0});setTimeout(function(){log.innerHTML='';i=0;last=null;step()},600)},3200);return}
+if(lines[i][0]==='-'){setTimeout(function(){[].forEach.call(log.children,function(c){c.style.opacity=0});setTimeout(function(){log.innerHTML='';last=null;i++;step()},600)},2200);return}
+var L=lines[i],t=row(L[0],'<i></i><i></i><i></i>',true);trim();
+setTimeout(function(){t.remove();var r=row(L[0],L[1]);if(last===L[0]){}last=L[0];i++;trim();setTimeout(step,1300+L[1].length*35)},900)}
+var q=location.search.match(/start=(\d+)/);if(q)i=+q[1];step();
+</script></body></html>
