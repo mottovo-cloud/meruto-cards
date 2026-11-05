@@ -1,0 +1,63 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box}
+html{font-size:clamp(14px,2.2vw,26px)}
+html,body{margin:0;height:100%;overflow:hidden;background:transparent;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#37352f}
+.wrap{position:relative;height:100%;width:100%;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 14%,#000 100%)}
+.log{position:absolute;left:.9rem;right:.9rem;bottom:.6rem;display:flex;flex-direction:column;gap:.7rem}
+.row{display:flex;align-items:flex-end;gap:.6rem;opacity:0;transform:translateY(.9rem) scale(.96);transition:opacity .45s ease,transform .45s cubic-bezier(.2,.9,.25,1.2)}
+.row.in{opacity:1;transform:none}
+.row.r{flex-direction:row-reverse}
+.av{width:2.9rem;height:2.9rem;border-radius:.85rem;flex:none;background-size:118%;background-position:center;box-shadow:0 0 0 1px rgba(55,53,47,.08)}
+.col{display:flex;flex-direction:column;max-width:72%}
+.row.r .col{align-items:flex-end}
+.nm{font-size:.72rem;color:#9b9a97;margin:0 .3rem .2rem}
+.bb{padding:.55rem .9rem;border-radius:1rem;font-size:1rem;line-height:1.5;word-break:keep-all;background:#f1f1ef}
+.row:not(.r) .bb{border-bottom-left-radius:.3rem}
+.row.r .bb{background:#e7f3f8;color:#28456c;border-bottom-right-radius:.3rem}
+.typing .bb{display:flex;gap:.3rem;padding:.8rem .9rem}
+.typing i{width:.4rem;height:.4rem;border-radius:50%;background:#b9b8b4;animation:t 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes t{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-.2rem);opacity:1}}
+.cont .av{visibility:hidden}.cont .nm{display:none}
+.tinted .row:not(.r) .bb{background:#fff}.tinted .row.r .bb{background:#cfe4f6}.tinted .typing i{background:#9fb4c6}
+</style></head><body><div class="wrap"><div class="log" id="log"></div></div>
+<script>
+var P={h:{name:"하루토",img:"avatar_b.png",side:"r"},m:{name:"멧시",img:"avatar_a.png",side:""}};
+var lines=[
+["m","방금 거 찍었으면 되게 웃겼을 것 같다."],
+["m","좋은 점심, 하루토."],
+["h","뭣...! 진짜 찍었으면 가만 안 둔다?!"],
+["m","같이 먹을 사람 없어서 안 먹은건 아니고?"],
+["h","아픈 데를 찌르네… 왜이렇게 못돼졌냐?"],
+["m","그럼 잠깐 나갔다올래? 편의점."],
+["h","너 참나... 언제 나 모르게 양아치가 된 거야?"],
+["h","... 한 번만이야."],
+["m","자. 잡아줄테니까 발만 잘 딛여봐."],
+["h","모, 모르겠다. 놓지만 마!"],
+["h","사, 사람. 사람사람사람…!!"],
+["m","응. 정학 먹으면 억울하잖아. 뛰어, 하루토!"],
+["-"],
+["h","이런 걸 왜 줍고 있는 거야? 거위 꾸며주려고?"],
+["m","어차피 치워야 될 것 같아서?"],
+["m","우리 구애해도 되겠다."],
+["h","...! 좋은 생각이다. 멧시, 자 쟤를 구애해봐!!"],
+["-"],
+["h","멧시 그거 거짓말이면 나 정말 충격받을 것 같아…"],
+["m","뭐어⋯ 일단은?"],
+["h","그러니까 무슨 일 있으면 기대. 알겠지?"],
+["m","일은 무슨. 내 삶은 너무 평화로워서 문제지!"]
+];
+var log=document.getElementById('log'),i=0,last=null,MAX=3;
+function row(who,html,typing){var p=P[who],r=document.createElement('div');r.className='row '+p.side+(typing?' typing':'')+(last===who?' cont':'');
+r.innerHTML='<div class="av" style="background-image:url('+p.img+')"></div><div class="col"><div class="nm">'+p.name+'</div><div class="bb">'+html+'</div></div>';log.appendChild(r);requestAnimationFrame(function(){requestAnimationFrame(function(){r.classList.add('in')})});return r}
+function trim(){var H=document.querySelector('.wrap').clientHeight*0.97;var rs=[].slice.call(log.children);var k=0;while(log.offsetHeight>H&&k<rs.length-1){rs[k].remove();k++}}
+function step(){if(i>=lines.length){setTimeout(function(){[].forEach.call(log.children,function(c){c.style.opacity=0});setTimeout(function(){log.innerHTML='';i=0;last=null;step()},600)},3200);return}
+if(lines[i][0]==='-'){setTimeout(function(){[].forEach.call(log.children,function(c){c.style.opacity=0});setTimeout(function(){log.innerHTML='';last=null;i++;step()},600)},2200);return}
+var L=lines[i],t=row(L[0],'<i></i><i></i><i></i>',true);trim();
+setTimeout(function(){t.remove();var r=row(L[0],L[1]);if(last===L[0]){}last=L[0];i++;trim();setTimeout(step,1300+L[1].length*35)},900)}
+var bg=location.search.match(/bg=([0-9a-fA-F]{6})/);if(bg){document.documentElement.style.background=document.body.style.background='#'+bg[1];document.body.classList.add('tinted')}
+var q=location.search.match(/start=(\d+)/);if(q)i=+q[1];step();
+</script></body></html>
