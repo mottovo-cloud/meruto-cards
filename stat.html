@@ -1,0 +1,52 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:transparent;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#37352f;overflow:hidden}
+.w{height:100%;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;gap:10px}
+.cap{font-size:12px;color:#9b9a97;letter-spacing:.02em;display:flex;align-items:center;gap:5px}
+.num{display:flex;align-items:flex-end;gap:2px;font-weight:700;font-size:34px;line-height:1;color:#2f5f8a;font-variant-numeric:tabular-nums}
+.num .unit{font-size:15px;font-weight:600;color:#7a8fa3;margin:0 0 4px 4px}
+.d{display:inline-block;height:1em;overflow:hidden}
+.d span{display:block;transition:transform 1.6s cubic-bezier(.2,.9,.2,1)}
+.d i{display:block;font-style:normal;height:1em}
+.comma{width:.3em}
+.bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:#ececea}
+.bar b{display:block;width:0;transition:width 1.6s cubic-bezier(.2,.9,.2,1)}
+.bm{background:#8fb3d6}.bh{background:#e8b07a}
+.leg{display:flex;justify-content:space-between;font-size:12px}
+.leg span{display:flex;align-items:center;gap:5px}
+.leg em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums}
+.dot{width:7px;height:7px;border-radius:50%}
+.sub{font-size:11px;color:#b3b2ae}
+</style></head><body><div class="w">
+<div class="cap">🌲 함께 나눈 대화</div>
+<div class="num" id="num"></div>
+<div class="bar"><b class="bm" id="bm"></b><b class="bh" id="bh"></b></div>
+<div class="leg">
+ <span><i class="dot bm"></i>멧시 <em id="pm">0%</em></span>
+ <span>하루토 <em id="ph">0%</em><i class="dot bh"></i></span>
+</div>
+<div class="sub" id="sub"></div>
+</div>
+<script>
+var q=new URLSearchParams(location.search);
+var m=+(q.get('m')||2116),h=+(q.get('h')||2011),turns=q.get('n');
+if(q.get('bg')){document.documentElement.style.background=document.body.style.background='#'+q.get('bg')}
+var total=m+h,pm=Math.round(m/total*1000)/10,ph=Math.round((100-pm)*10)/10;
+var s=total.toLocaleString('en-US'),el=document.getElementById('num'),cols=[];
+for(var c of s){if(c===','){var x=document.createElement('span');x.className='comma';x.textContent=',';el.appendChild(x);continue}
+ var d=document.createElement('span');d.className='d';var st=document.createElement('span');
+ var html='';for(var k=0;k<20;k++)html+='<i>'+(k%10)+'</i>';st.innerHTML=html;d.appendChild(st);el.appendChild(d);cols.push([st,+c])}
+var u=document.createElement('span');u.className='unit';u.textContent='자';el.appendChild(u);
+if(turns)document.getElementById('sub').textContent='말풍선 '+turns+'번 주고받음';
+function count(id,to){var e=document.getElementById(id),t0=performance.now();
+ (function f(t){var p=Math.min(1,(t-t0)/1600);p=1-Math.pow(1-p,3);e.textContent=(to*p).toFixed(1).replace('.0','')+'%';if(p<1)requestAnimationFrame(f)})(t0)}
+function run(){cols.forEach(function(a,i){a[0].style.transition='none';a[0].style.transform='translateY(0)';});
+ document.getElementById('bm').style.width='0';document.getElementById('bh').style.width='0';
+ requestAnimationFrame(function(){requestAnimationFrame(function(){
+  cols.forEach(function(a,i){a[0].style.transition='transform '+(1.2+i*.15)+'s cubic-bezier(.2,.9,.2,1)';a[0].style.transform='translateY(-'+(10+a[1])+'em)'});
+  document.getElementById('bm').style.width=pm+'%';document.getElementById('bh').style.width=ph+'%';
+  count('pm',pm);count('ph',ph)})})}
+run();
+</script></body></html>
