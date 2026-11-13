@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:transparent;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#37352f;overflow:hidden}
+.w{height:100%;display:flex;flex-direction:column;justify-content:center;padding:14px 16px;gap:10px}
+.cap{font-size:12px;color:#9b9a97;letter-spacing:.02em}
+.num{display:flex;align-items:flex-end;gap:2px;font-weight:700;font-size:34px;line-height:1;color:var(--main);font-variant-numeric:tabular-nums}
+.num .unit{font-size:15px;font-weight:600;color:var(--soft);margin:0 0 4px 4px}
+.d{display:inline-block;height:1em;overflow:hidden}
+.d span{display:block}
+.d i{display:block;font-style:normal;height:1em}
+.bar{position:relative;height:8px;border-radius:99px;background:var(--track);overflow:hidden}
+.bar b{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:99px;background:linear-gradient(90deg,var(--g1),var(--g2));transition:width 1.6s cubic-bezier(.2,.9,.2,1)}
+.seg{position:relative;border-radius:99px;background:#ececea;overflow:hidden}
+.seg b{position:absolute;inset:0;width:0;border-radius:99px;transition:width 1.6s cubic-bezier(.2,.9,.2,1)}
+.seg.on b{background:var(--bar)}
+.seg.off b{background:#dcdcd8}
+.labs{display:flex;gap:3px;font-size:10px;color:#b3b2ae;margin-top:-5px}
+.labs span{text-align:center}
+.labs span.on{color:var(--main);font-weight:700}
+.leg{font-size:12px;color:#787774}
+.leg em{font-style:normal;font-weight:700;color:var(--main);font-variant-numeric:tabular-nums}
+.sub{font-size:11px;color:#b3b2ae}
+</style></head><body><div class="w">
+<div class="cap" id="cap"></div>
+<div class="num" id="num"></div>
+<div class="bar"><b id="fill"></b></div>
+<div class="leg" id="leg"></div>
+<div class="sub" id="sub"></div>
+</div>
+<script>
+var q=new URLSearchParams(location.search);
+var T={blue:['#2f5f8a','#7a8fa3','#8fb3d6','#dbe8f4','#bcd6ee','#4f86bd'],green:['#3f6b3c','#7f9a7c','#9cbf98','#dfecdd','#c6e0c2','#5f9a5a'],yellow:['#8a6a14','#a8935a','#e2c36a','#f6ecc9','#f4e09a','#d1a02e'],orange:['#8a4a1c','#a8835f','#e8b07a','#f7e1cb','#f5cfa8','#d9833f']};
+var th=T[q.get('theme')]||T.blue,R=document.documentElement.style;
+R.setProperty('--main',th[0]);R.setProperty('--soft',th[1]);R.setProperty('--bar',th[2]);R.setProperty('--track',th[3]);R.setProperty('--g1',th[4]);R.setProperty('--g2',th[5]);
+if(q.get('bg')){R.background=document.body.style.background='#'+q.get('bg')}
+var all=(q.get('a')||'8800,6188,4127').split(',').map(Number),g=+(q.get('g')||3),turns=q.get('n');
+var mine=all[g-1],total=all.reduce(function(a,b){return a+b},0),pct=Math.round(mine/total*1000)/10;
+document.getElementById('cap').textContent='🌲 '+g+'학년 · 함께 나눈 대화';
+var s=mine.toLocaleString('en-US'),el=document.getElementById('num'),cols=[];
+for(var c of s){if(c===','){var x=document.createElement('span');x.textContent=',';el.appendChild(x);continue}
+ var d=document.createElement('span');d.className='d';var st=document.createElement('span'),html='';
+ for(var k=0;k<20;k++)html+='<i>'+(k%10)+'</i>';st.innerHTML=html;d.appendChild(st);el.appendChild(d);cols.push([st,+c])}
+var u=document.createElement('span');u.className='unit';u.textContent='자';el.appendChild(u);
+document.getElementById('leg').innerHTML='1~'+all.length+'학년 전체 '+total.toLocaleString('en-US')+'자 중 <em id="pc">0%</em>';
+if(turns)document.getElementById('sub').textContent='말풍선 '+turns+'번 주고받음';
+requestAnimationFrame(function(){requestAnimationFrame(function(){
+ cols.forEach(function(a,i){a[0].style.transition='transform '+(1.2+i*.15)+'s cubic-bezier(.2,.9,.2,1)';a[0].style.transform='translateY(-'+(10+a[1])+'em)'});
+ document.getElementById('fill').style.width=pct+'%';
+ var e=document.getElementById('pc'),t0=performance.now();
+ (function f(t){var p=Math.min(1,(t-t0)/1600);p=1-Math.pow(1-p,3);e.textContent=(pct*p).toFixed(1)+'%';if(p<1)requestAnimationFrame(f)})(t0)})});
+</script></body></html>
