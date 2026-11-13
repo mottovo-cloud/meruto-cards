@@ -28,15 +28,19 @@ html,body{margin:0;height:100%;overflow:hidden;background:transparent;font-famil
 var P={h:{name:"하루토",img:"19c2e008-image.png",side:"r"},m:{name:"멧시",img:"453a8a14-image.png",side:""}};
 var lines=[
 ["h","넌 내가 왜 좋아? .."],
-["h","우린 가족처럼 지냈고,,.. 막 .. 동생처럼 느끼는 거 아냐?"],
+["h","우린 가족처럼 지냈고,,.."],
+["h","막 .. 동생처럼 느끼는 거 아냐?"],
 ["m","(쪽)"],
 ["m","넌 동생이랑 이런 거 해?"],
 ["h","읏... 나, 난 동생 없는데...?"],
-["m","음~ 하루토는 내가 왜 좋은데? 내가 챙겨줘서 좋은 거야?"],
+["m","음~ 하루토는 내가 왜 좋은데?"],
+["m","내가 챙겨줘서 좋은 거야?"],
 ["h","내가 먼저 물어봤잖아!"],
 ["m","푸핫! ..."],
-["m","챙겨주는거 이상으로 내 우선순위나 생각이 온통 너야."],
-["m","또 그걸 넘어서 더 닿고 싶고, 네 세상에 나만 있었으면 좋겠고..."]
+["m","챙겨주는거 이상으로"],
+["m","내 우선순위나 생각이 온통 너야."],
+["m","또 그걸 넘어서 더 닿고 싶고,"],
+["m","네 세상에 나만 있었으면 좋겠고..."]
 ];
 var log=document.getElementById('log'),i=0,last=null,MAX=3;
 function row(who,html,typing){var p=P[who],r=document.createElement('div');r.className='row '+p.side+(typing?' typing':'')+(last===who?' cont':'');

@@ -22,28 +22,35 @@ html,body{margin:0;height:100%;overflow:hidden;background:transparent;font-famil
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes t{0%,60%,100%{transform:none;opacity:.5}30%{transform:translateY(-.2rem);opacity:1}}
 .cont .av{visibility:hidden}.cont .nm{display:none}
-.tinted .row:not(.r) .bb{background:#fff}.tinted .row.r .bb{background:#cfe4f6}.tinted .typing i{background:#9fb4c6}
+.tinted .row:not(.r) .bb{background:#fff}.tinted .row.r .bb{background:#f6e3a6;color:#5c4813}.tinted .typing i{background:#d1b665}
 </style></head><body><div class="wrap"><div class="log" id="log"></div></div>
 <script>
 var P={h:{name:"하루토",img:"avatar_y1_h.png",side:"r"},m:{name:"멧시",img:"avatar_y1_m.png",side:""}};
 var lines=[
-["m","에잇."],
-["h","멧~…? …어."],
-["m","선생님! 사가라가 했어요!!"],
-["h","메가타... 너 지금 나 판 거야...?!"],
-["m","왜, 섭섭해? 삐질거야?"],
-["h","어…!! 서운해………!!!"],
-["m","미안, 하루토⋯. 울지마, 응?"],
-["m","⋯똑같네, 어릴 때랑. 아직 울보였구나."],
-["h","…미안…"],
-["h","…나 오늘 식단 말고 맛있는 거 먹을래. 멧시 네가 사."],
-["m","얼굴 다 쓸리겠다, 울보야."],
-["m","오늘은 제일 비싼 거 골라. 대신 먹고 나서 서운한거 다 푸는 거다?"],
-["-"],
-["m","뭐야~ 나한테는 칭찬 받기 싫어?"],
-["m","포즈 어떻게 할까?"],
-["h","그럴까? 어, 방금…"],
-["m","이제 뭐 할래? 기껏 신사 왔으니까 기념품이라도 살까."]
+["h","땀 냄새나, 인마."],
+["h","…참나."],
+["h","아, 아깝네."],
+["h","좀 더 일찍 왔으면 네 눈 색이랑 같을 뻔 했는데."],
+["m","하하! 그 말 하려다가 말았는데."],
+["m","하루토 섬세하지 못하긴~"],
+["m","이제와서 땀 냄새가 뭐가 대수라고."],
+["m","흐음? 평소 노을지기 전에 그런 생각 하는 거야?"],
+["m","내 눈색 같다던가."],
+["h","으휴, 땀내왕자님, 바다 도착이요."],
+["h","엇. … 어, 어. … 그… ,"],
+["h","늘 그런 생각했는데… … 왜?"],
+["h","쫌… 징그러운가…?"],
+["m","네에, 쿨내왕자님."],
+["m","아, 하. 아하하하!"],
+["m","아니, 좋아."],
+["m","계속 생각해줘."],
+["m","하나도 안 징그러우니까."],
+["h","뭣, 아, 야아…!! 웃지 마!!"],
+["h","아이, 괜히 얘기했네…"],
+["h","아, 너 때문에 땀 더 나잖아!"],
+["h","아오오오 찝찝해."],
+["h","으쒸, 웃기는… 아 몰라!"],
+["h","할까보냐! 메롱~"]
 ];
 var log=document.getElementById('log'),i=0,last=null,MAX=3;
 function row(who,html,typing){var p=P[who],r=document.createElement('div');r.className='row '+p.side+(typing?' typing':'')+(last===who?' cont':'');
